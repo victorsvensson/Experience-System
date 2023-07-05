@@ -20,10 +20,11 @@ namespace ZeqDEV {
         [Header("Make sure Max Level and ExperiencePerLevel has same value")]
         [Space(10)]
         [SerializeField] private int maxLevel;
-        [SerializeField] private int[] experiencePerLevel = new int[] { 100, 120, 140 };
+        [SerializeField] private int[] experiencePerLevel = new int[] { };
 
         private void Start()
         {
+            Application.targetFrameRate = 60;
             LoadData(); // Checks if there is any saved data to load
         }
 
@@ -127,6 +128,19 @@ namespace ZeqDEV {
             _currentLevel = PlayerPrefs.GetInt("CurrentLevel");
             _experience = PlayerPrefs.GetInt("CurrentExperience");
             Debug.Log("Loadprefab data is now done!");
+        }
+
+        // Caution! This will delete all the stored local data in the game
+        public void DeleteLocalFileData()
+        {
+            SaveSystem.DeleteExperienceData();
+            Debug.Log("Local file data is now deleted");
+        }
+        // Caution! This will delete all the stored playerprefs data in the game
+        public void DeletePrefsData() {
+            PlayerPrefs.DeleteKey("CurrentLevel");
+            PlayerPrefs.DeleteKey("CurrentExperience");
+            Debug.Log("Playerprefs data has now been deleted!");
         }
     }
 }

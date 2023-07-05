@@ -15,7 +15,7 @@ namespace ZeqDEV
         public static void SaveExperienceData(ExperienceManager experienceManager)
         {
             BinaryFormatter formatter = new BinaryFormatter(); // Create new instance of binaryformatter to serialize the data
-            string path = Application.persistentDataPath + "/achievements.data"; // Give the serialized file a name and select path.
+            string path = Application.persistentDataPath + "/experience.data"; // Give the serialized file a name and select path.
             FileStream stream = new FileStream(path, FileMode.Create); // Create a file stream to save the file
 
             ExperienceData data = new ExperienceData(experienceManager); // Create new instance of ExperienceData with contains the data from experiencemanager class
@@ -26,7 +26,7 @@ namespace ZeqDEV
 
         public static ExperienceData LoadExperience()
         {
-            string path = Application.persistentDataPath + "/achievements.data"; // Set path to the save folder
+            string path = Application.persistentDataPath + "/experience.data"; // Set path to the save folder
 
             if (File.Exists(path)) // if the file already exist load the file.
             {
@@ -42,6 +42,21 @@ namespace ZeqDEV
             {
                 Debug.Log("Not Finding File");
                 return null;
+            }
+        }
+
+        public static void DeleteExperienceData()
+        {
+            string filePath = Path.Combine(Application.persistentDataPath, "experience.data");
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Debug.Log("File deleted: " + "experience.data");
+            }
+            else
+            {
+                Debug.Log("File not found: " + "experience.data");
             }
         }
     }
