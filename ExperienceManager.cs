@@ -22,7 +22,6 @@ namespace ZeqDEV {
         [SerializeField] private int maxLevel;
         [SerializeField] private int[] experiencePerLevel = new int[] { 100, 120, 140 };
 
-
         private void Start()
         {
             LoadData(); // Checks if there is any saved data to load
@@ -40,11 +39,24 @@ namespace ZeqDEV {
             return _experience;
         }
 
+        public bool IsMaxLevel()
+        {
+            if(_currentLevel <= maxLevel)
+            {
+                return false;
+            }
+            else
+            {
+                Debug.Log("Player is Max level");
+                return true;
+            }
+        }
+
         public void AddExperience(int amount)
         {
-            _experience += amount; // Add experience with chosen amount
+            if (!IsMaxLevel()) _experience += amount; // Add experience with chosen amount
 
-            if(_experience >= GetExperienceToNextLevel(_currentLevel))
+            if(!IsMaxLevel() && _experience >= GetExperienceToNextLevel(_currentLevel))
             {
                 // Enough experience to level up. Level up!
                 _experience -= GetExperienceToNextLevel(_currentLevel); // Subtract playerexperience with require experience
@@ -68,39 +80,36 @@ namespace ZeqDEV {
 
         public void SaveData()
         {
-            if(saveToLocalFile && saveToPrefabs)
-            {
-                Debug.LogError("Select either Save To File or Save to prefab");
+            if(saveToLocalFile && saveToPrefabs) Debug.LogError("Select either Save To File or Save to prefab");
+            else if(saveToLocalFile && !saveToPrefabs) SaveLocalData();
+            else if(!saveToLocalFile && saveToPrefabs) SavePrefabData();
+        }
 
-            }else if(saveToLocalFile && !saveToPrefabs)
-            {
-                SaveSystem.SaveExperienceData(this);
-                Debug.Log("Saved data local successful!");
-            }
-            else if(!saveToLocalFile && saveToPrefabs)
-            {
-                // Save to prefab code here
-            }
+        void SaveLocalData()
+        {
+            SaveSystem.SaveExperienceData(this);
+            Debug.Log("Saved data local successful!");
+        }
+
+        void SavePrefabData()
+        {
+            PlayerPrefs.SetInt("CurrentLevel", _currentLevel);
+            PlayerPrefs.SetInt("CurrentExperience", _experience);
+            Debug.Log("Playerprefabs data is now saved!");
         }
 
         public void LoadData()
         {
-            if (saveToLocalFile && saveToPrefabs)
-            {
-                Debug.LogError("Select either Save To File or Save to prefab");
-            }
-            else if (saveToLocalFile && !saveToPrefabs)
-            {
+            if (saveToLocalFile && saveToPrefabs) Debug.LogError("Select either Save To File or Save to prefab");
+            else if (saveToLocalFile && !saveToPrefabs) LoadLocalData();
+            else if (!saveToLocalFile && saveToPrefabs) LoadPrefabData();
+        }
 
-            }else if(!saveToLocalFile && saveToPrefabs)
-            {
-
-            }
-
+        void LoadLocalData() {
 
             ExperienceData experienceData = SaveSystem.LoadExperience();
 
-            if(experienceData != null)
+            if (experienceData != null)
             {
                 _currentLevel = experienceData.currentLevel;
                 _experience = experienceData.experience;
@@ -111,6 +120,13 @@ namespace ZeqDEV {
             {
                 Debug.Log("No saved data found");
             }
+        }
+
+        void LoadPrefabData()
+        {
+            _currentLevel = PlayerPrefs.GetInt("CurrentLevel");
+            _experience = PlayerPrefs.GetInt("CurrentExperience");
+            Debug.Log("Loadprefab data is now done!");
         }
     }
 }

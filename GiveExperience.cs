@@ -32,31 +32,26 @@ namespace ZeqDEV
         private void OnDestroy()
         {
             if (_GiveExperienceOnDeath) experienceManager.AddExperience(_experience);
-            _giveExperienceComplete = true;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (_GiveExperienceOnInteraction) experienceManager.AddExperience(_experience);
-            _giveExperienceComplete = true;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (_GiveExperienceOnInteraction) experienceManager.AddExperience(_experience);
-            _giveExperienceComplete = true;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (_GiveExperienceOnInteraction) experienceManager.AddExperience(_experience);
-            _giveExperienceComplete = true;
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (_GiveExperienceOnInteraction) experienceManager.AddExperience(_experience);
-            _giveExperienceComplete = true;
         }
     }
 }
