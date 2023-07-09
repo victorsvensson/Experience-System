@@ -15,8 +15,8 @@ namespace ZeqDEV {
         public bool saveToLocalFile;
         public bool saveToPrefabs;
 
-        private int _currentLevel = 0;
-        private int _experience = 0;
+        [SerializeField] private int _currentLevel = 0;
+        [SerializeField] private int _experience = 0;
         [Header("Make sure Max Level and ExperiencePerLevel has same value")]
         [Space(10)]
         [SerializeField] private int maxLevel;
@@ -40,6 +40,7 @@ namespace ZeqDEV {
             return _experience;
         }
 
+        // Check if the player is at max level
         public bool IsMaxLevel()
         {
             if(_currentLevel <= maxLevel)

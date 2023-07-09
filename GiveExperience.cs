@@ -10,7 +10,8 @@ namespace ZeqDEV
 
         private bool _giveExperienceComplete;
 
-        [SerializeField] private bool _GiveExperienceOnDeath;
+        [Header("When object is destroyed or when an enemy dies use this option")]
+        [SerializeField] private bool _GiveExperienceOnDestroy;
 
         [Header("Make sure to add a Collider with Is Trigger active on this object using this option")]
         [Tooltip("Gives experience when hitting a collider. You can use collision or Is Trigger")]
@@ -29,10 +30,10 @@ namespace ZeqDEV
             }
         }
 
-        // Gives experience when the gameobject is destroyed
+        // Gives experience when the gameobject is destroyed (For example when an enemy dies)
         private void OnDestroy()
         {
-            if (_GiveExperienceOnDeath) experienceManager.AddExperience(_experience);
+            if (_GiveExperienceOnDestroy) experienceManager.AddExperience(_experience);
         }
 
         // Gives experience if this gameobject has 2D Collider component attached with Is Trigger active
@@ -46,20 +47,6 @@ namespace ZeqDEV
         {
             if (_giveExperienceOnColliderTrigger) experienceManager.AddExperience(_experience);
         }
-
-        //// Gives experience if the gameobject has a Collider component attached with Is Trigger disabled
-        //private void OnCollisionEnter(Collision collision)
-        //{
-        //    if (_giveExperienceOnCollision) experienceManager.AddExperience(_experience);
-        //}
-
-        //// Gives experience if the gameobject has a 2D Collider component attached with Is Trigger disabled
-        //private void OnCollisionEnter2D(Collision2D collision)
-        //{
-        //    if (_giveExperienceOnCollision) experienceManager.AddExperience(_experience);
-        //}
-
-        
     }
 }
 
