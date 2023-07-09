@@ -13,6 +13,7 @@ public class ExperienceUI : MonoBehaviour
 
     [SerializeField] private TMP_Text _experienceText;
     [SerializeField] private TMP_Text _currentLevelText;
+    [SerializeField] private TMP_Text _totalExperienceCurrentLevelText;
     [SerializeField] private Slider _experienceBar;
     [SerializeField] private ParticleSystem levelUpParticles;
 
@@ -34,6 +35,11 @@ public class ExperienceUI : MonoBehaviour
         catch { }
         try
         {
+            ShowTotalExperienceCurrentLevel();
+        }
+        catch { }
+        try
+        {
             ShowExperienceBar();
         }
         catch { }
@@ -45,11 +51,15 @@ public class ExperienceUI : MonoBehaviour
     }
 
     void ShowExperienceText() {
-        _experienceText.text = _experienceText.text;
+        _experienceText.text = _experienceManager.GetCurrentExperience().ToString();
     }
 
     void ShowCurrentLevelText() {
-        _currentLevelText.text = _currentLevelText.text;
+        _currentLevelText.text = _experienceManager.GetCurrentLevel().ToString();
+    }
+
+    void ShowTotalExperienceCurrentLevel() {
+        _totalExperienceCurrentLevelText.text = _experienceManager.TotalExperienceCurrentLevel().ToString();
     }
 
     void ShowExperienceBar() {

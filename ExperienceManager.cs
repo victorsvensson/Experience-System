@@ -40,6 +40,11 @@ namespace ZeqDEV {
             return _experience;
         }
 
+        // If you need to get total experience required for current level
+        public int TotalExperienceCurrentLevel() {
+            return experiencePerLevel[_currentLevel];
+        }
+
         // Check if the player is at max level
         public bool IsMaxLevel()
         {

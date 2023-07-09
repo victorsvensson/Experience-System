@@ -10,7 +10,7 @@ namespace ZeqDEV
 
     public class Demo : MonoBehaviour
     {
-        [SerializeField] ExperienceManager experienceManager;
+        ExperienceManager _experienceManager;
 
         public TMP_Text currentLevelText;
         public TMP_Text experienceText;
@@ -18,16 +18,16 @@ namespace ZeqDEV
 
         private void Start()
         {
-            experienceManager = FindObjectOfType<ExperienceManager>();
+            _experienceManager = FindObjectOfType<ExperienceManager>();
         }
 
         private void Update()
         {
             try
             {
-                currentLevelText.text = "Current level: " + experienceManager.GetCurrentLevel().ToString();
-                experienceText.text = "Current exp: " + experienceManager.GetCurrentExperience().ToString();
-                experienceUntilNextLevelText.text = "Exp until next level: " + experienceManager.GetExperienceToNextLevel(experienceManager.GetCurrentLevel()).ToString();
+                currentLevelText.text = "Current level: " + _experienceManager.GetCurrentLevel().ToString();
+                experienceText.text = "Current exp: " + _experienceManager.GetCurrentExperience().ToString();
+                experienceUntilNextLevelText.text = "Exp until next level: " + _experienceManager.GetExperienceToNextLevel(_experienceManager.GetCurrentLevel()).ToString();
             }
             catch
             {
