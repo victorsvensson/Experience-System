@@ -15,11 +15,18 @@ public class ExperienceUI : MonoBehaviour
     [SerializeField] private TMP_Text _currentLevelText;
     [SerializeField] private TMP_Text _totalExperienceCurrentLevelText;
     [SerializeField] private Slider _experienceBar;
+    [SerializeField] private bool _playParticlesOnLevelUp;
     [SerializeField] private ParticleSystem levelUpParticles;
+    [SerializeField] private bool _playSoundOnLevelUp;
+    [SerializeField] private AudioSource levelUpSound;
+
+
 
     private void Start() {
 
         _experienceManager = FindObjectOfType<ExperienceManager>();
+
+        _experienceManager.OnFunctionCalled += PlayExperienceParticles; // Subscribe to check if function runs in Experience Manager script
     }
 
     private void Update() {
@@ -70,7 +77,19 @@ public class ExperienceUI : MonoBehaviour
 
     public void PlayExperienceParticles() {
 
-        levelUpParticles.Play();
+        if(_playParticlesOnLevelUp) levelUpParticles.Play();
+    }
+
+    public void PlayLevelUpSound() {
+        try
+        {
+            if (_playSoundOnLevelUp) levelUpSound.Play();
+        }
+        catch
+        {
+            Debug.LogError("There's no audio source connected to the ExperienceUI script. Please attach an audio source to remove this message");
+        }
+
     }
 
 }
