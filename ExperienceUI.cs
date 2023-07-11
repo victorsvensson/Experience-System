@@ -10,6 +10,7 @@ using System.Linq.Expressions;
 public class ExperienceUI : MonoBehaviour
 {
     private ExperienceManager _experienceManager;
+    private AudioSource _levelUpSound;
 
     [SerializeField] private TMP_Text _experienceText;
     [SerializeField] private TMP_Text _currentLevelText;
@@ -18,18 +19,19 @@ public class ExperienceUI : MonoBehaviour
     [SerializeField] private bool _playParticlesOnLevelUp;
     [SerializeField] private ParticleSystem levelUpParticles;
     [SerializeField] private bool _playSoundOnLevelUp;
-    [SerializeField] private AudioSource levelUpSound;
-
-
 
     private void Start() {
 
         _experienceManager = FindObjectOfType<ExperienceManager>();
+        _levelUpSound = GetComponent<AudioSource>();
 
         _experienceManager.OnFunctionCalled += PlayExperienceParticles; // Subscribe to check if function runs in Experience Manager script
+        _experienceManager.OnFunctionCalled += PlayLevelUpSound; // Subscribe to check if function runs in Experience Manager script
     }
 
     private void Update() {
+
+        // Using try catch function to avoid getting errors if you dont use all the functions
         try
         {
             ShowExperienceText();
@@ -83,7 +85,7 @@ public class ExperienceUI : MonoBehaviour
     public void PlayLevelUpSound() {
         try
         {
-            if (_playSoundOnLevelUp) levelUpSound.Play();
+            if (_playSoundOnLevelUp) _levelUpSound.Play();
         }
         catch
         {
