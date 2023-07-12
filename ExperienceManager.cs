@@ -25,9 +25,7 @@ public class ExperienceManager : MonoBehaviour
     public delegate void LevelUpDelegate();
     public event LevelUpDelegate OnFunctionCalled;
 
-    //OnSceneChanged(save)
- //OnApplicationQuit(save)
-
+    private bool _isDeletingLocalFiles = false;
 
     private void Start()
     {
@@ -38,7 +36,7 @@ public class ExperienceManager : MonoBehaviour
     private void OnDestroy() {
 
         //When object is destroyed (for example on scene change)
-        SaveData();
+        if(!_isDeletingLocalFiles) SaveData();
     }
 
     // Using a function to get current level to keep abstraction
@@ -61,7 +59,7 @@ public class ExperienceManager : MonoBehaviour
     // Check if the player is at max level
     public bool IsMaxLevel()
     {
-        if(_currentLevel <= maxLevel)
+        if(_currentLevel <= maxLevel - 1)
         {
             return false;
         }
@@ -92,7 +90,7 @@ public class ExperienceManager : MonoBehaviour
 
     public int GetExperienceToNextLevel(int level)
     {
-        if (level <= experiencePerLevel.Length - 1)
+        if (level <= experiencePerLevel.Length)
         {
             return experiencePerLevel[level]; // return the required experience to level up
         }
@@ -158,6 +156,7 @@ public class ExperienceManager : MonoBehaviour
     // Caution! This will delete all the stored local data in the game
     public void DeleteLocalFileData()
     {
+        _isDeletingLocalFiles = true;
         SaveSystem.DeleteExperienceData();
         Debug.Log("Local file data is now deleted");
     }

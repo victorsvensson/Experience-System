@@ -30,9 +30,12 @@ public class GiveExperience : MonoBehaviour
         }
     }
 
-    // When gameobject is disabled (setactive = false) it will give experience. It's not good practice to destroy gameobject because it collides on scene change.
-    private void OnDisable() {
-        if (_GiveExperienceOnDestroy) experienceManager.AddExperience(_experience);
+    private void OnDestroy()
+    {
+        if (gameObject.scene.isLoaded)
+        {
+            if (_GiveExperienceOnDestroy) experienceManager.AddExperience(_experience);
+        }
     }
 
     // Gives experience if this gameobject has 2D Collider component attached with Is Trigger active
