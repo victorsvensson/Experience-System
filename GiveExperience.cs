@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class GiveExperience : MonoBehaviour
 {
     private ExperienceManager experienceManager;
-
-    private bool _giveExperienceComplete;
+    private bool isSceneReloading = false;
 
     [Header("When object is destroyed or when an enemy dies use this option")]
     [SerializeField] private bool _GiveExperienceOnDestroy;
@@ -30,9 +30,8 @@ public class GiveExperience : MonoBehaviour
         }
     }
 
-    // Gives experience when the gameobject is destroyed (For example when an enemy dies)
-    private void OnDestroy()
-    {
+    // When gameobject is disabled (setactive = false) it will give experience. It's not good practice to destroy gameobject because it collides on scene change.
+    private void OnDisable() {
         if (_GiveExperienceOnDestroy) experienceManager.AddExperience(_experience);
     }
 
@@ -55,6 +54,18 @@ public class GiveExperience : MonoBehaviour
             _collected = true;
         }
     }
+
+/*    private void OnEnable() {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+    }
+
+    private void OnDisable() {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
+
+    private void OnSceneUnloaded(Scene scene) {
+        isSceneReloading = true;
+    }*/
 }
 
 

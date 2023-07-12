@@ -25,10 +25,20 @@ public class ExperienceManager : MonoBehaviour
     public delegate void LevelUpDelegate();
     public event LevelUpDelegate OnFunctionCalled;
 
+    //OnSceneChanged(save)
+ //OnApplicationQuit(save)
+
+
     private void Start()
     {
         Application.targetFrameRate = 60;
         LoadData(); // Checks if there is any saved data to load
+    }
+
+    private void OnDestroy() {
+
+        //When object is destroyed (for example on scene change)
+        SaveData();
     }
 
     // Using a function to get current level to keep abstraction
@@ -82,7 +92,7 @@ public class ExperienceManager : MonoBehaviour
 
     public int GetExperienceToNextLevel(int level)
     {
-        if (level < experiencePerLevel.Length)
+        if (level <= experiencePerLevel.Length - 1)
         {
             return experiencePerLevel[level]; // return the required experience to level up
         }
